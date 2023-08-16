@@ -8,25 +8,25 @@ from flask_cors import CORS
 from databases.database import db
 from databases.tables.user import User
 
-app = Flask(__name__)
-CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://admin:Performapal1!@reddit-sql.c28qlcyh5j6n.us-east-1.rds.amazonaws.com:3306/reddit_database"
-db.init_app(app)
+application = Flask(__name__)
+CORS(application)
+application.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://admin:Performapal1!@reddit-sql.c28qlcyh5j6n.us-east-1.rds.amazonaws.com:3306/reddit_database"
+db.init_app(application)
 # db = SQLAlchemy(app)
 # print(db)
 
 
-@app.route("/foo", methods = ['GET'])
+@application.route("/foo", methods = ['GET'])
 def intro():
     return jsonify({"error": "error"})
 
-app.register_blueprint(login_blue_print)
-app.register_blueprint(reddit_blueprint)
+application.register_blueprint(login_blue_print)
+application.register_blueprint(reddit_blueprint)
 
-with app.app_context():
+with application.app_context():
         db.create_all()
 
 if __name__ == "__main__":
-    with app.app_context():
+    with application.app_context():
         db.create_all()
-    app.run(debug = True, port = 8080)
+    application.run(debug = True, port = 8080)
