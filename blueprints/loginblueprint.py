@@ -7,7 +7,7 @@ import praw
 reddit = praw.Reddit(
     client_id="kiKAZSbJnL_BPMCNyhOHKw",
     client_secret= "1Z7i8dPCwkmwJHEr1NWUvkVQoWvO4A",
-    redirect_uri = "http://localhost:8080/redirect",
+    redirect_uri = "http://zengreddit.us-east-1.elasticbeanstalk.com/redirect",
     user_agent = "user_reddit_api"
 )
 
@@ -22,8 +22,8 @@ def get_access_token():
     if (not username or not password):
         return jsonify({'error': "error"}), 400
     url = reddit.auth.url(scopes=["identity", "account", "edit", "history","privatemessages", "read", "submit"], state="...", duration="permanent")
-    webbrowser.open_new_tab(url)
-    return redirect(url)
+    # webbrowser.open_new_tab(url)
+    return jsonify({"url": url}), 200
 
 @login_blue_print.route("/redirect", methods = ["GET"])
 def redirect_route():
